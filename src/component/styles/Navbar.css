@@ -1,0 +1,46 @@
+
+.home {
+    display: flex;
+    height: 100vh;
+  }
+  .navbar {
+    background-color: #333;
+    width: 70px; 
+    transition: width 1s;
+    overflow: hidden;
+  }
+  
+  .navbar:hover {
+    width: 130px; 
+  }
+  
+  .navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-item {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .link-text {
+    display: none; /* Hide text by default */
+  }
+  
+  .navbar:hover .link-text {
+    display: block; /* Display text on hover */
+  }
+  .nav-item:hover .nav-link{
+    color: rgb(140, 140, 227);
+  }
