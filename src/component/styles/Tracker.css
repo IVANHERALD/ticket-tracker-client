@@ -2,12 +2,10 @@
 .main-container {
     display: flex;
   }
-  
   .tracker-container {
     margin-left: 370px; 
     margin-top: 30px;
     padding: 40px;
-
     border: 1px solid #e9e1e1;
     border-radius: 5px;
     height: 700px;
@@ -16,4 +14,3 @@
 
   }
   
- 

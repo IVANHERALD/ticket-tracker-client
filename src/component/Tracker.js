@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TextField,InputLabel,Select,MenuItem ,Button,Snackbar, FormControl} from '@mui/material';
+import { useLocation, useParams,useNavigate } from 'react-router-dom';
 import './styles/Tracker.css'
 import Navbar from './Navbar';
 function Tracker() {
@@ -12,7 +13,8 @@ function Tracker() {
   const [status,setStatus] = useState('')
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-
+  const location = useLocation();
+  const ticket = location.state || {};
   const showSnackbar = (message) => {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
@@ -21,7 +23,7 @@ function Tracker() {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
-
+  
 
   useEffect(() => {
     const getCurrentDateTime = () => {
@@ -33,6 +35,30 @@ function Tracker() {
 
     getCurrentDateTime();
   }, []);
+  useEffect(() => {
+    const fetchLastTicketNumber = async () => {
+      console.log("inside")
+      try {
+        const lastTicketResponse = await fetch(`http://localhost:5000/ticket/getTicketNum`);
+        const lastTicketData = await lastTicketResponse.json();
+        const lastTicketNumber = lastTicketData.lastTicketNumber || 0;
+        const newTicketNumber = parseInt(lastTicketNumber)+1;
+        setIssueId(newTicketNumber);
+      } catch (error) {
+        console.error('Error fetching last Ticket number:', error);
+      }
+    };
+   fetchLastTicketNumber();
+},[]);
+
+if (!ticket) {
+  return (
+    <div>
+      <p>ticket not found</p>
+    </div>
+  );
+}
+
 
   const handleSubmit=async()=>{
     if(!issueId ||!currentDateTime||!openBy||!requestedFor||!description||!priority||!status)
@@ -90,7 +116,9 @@ function Tracker() {
     <div className='tracker-container' >
         
       <h1>Issue Tracker</h1>
-      <TextField variant="outlined" label="Issue Id" value={issueId} onChange={(e)=>setIssueId(e.target.value)}></TextField><br /><br />
+      <TextField variant="outlined" label="Issue Id" value={issueId} InputProps={{
+        readOnly: true,
+      }} onChange={(e)=>setIssueId(e.target.value)} ></TextField><br /><br />
       <TextField variant="outlined" label="Opened on" value={currentDateTime} InputProps={{
         readOnly: true,
       }}></TextField><br /><br />
