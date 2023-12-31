@@ -13,7 +13,7 @@ function Home() {
     {
         const fetchAllTicket = async () => {
             try {
-              const response = await fetch(`http://localhost:5000/ticket/getAllTickets`);
+              const response = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/getAllTickets`);
               const data = await response.json();
               console.log(data.tickets);
               setTicketArray(data.tickets);
