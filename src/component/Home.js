@@ -25,7 +25,15 @@ function Home() {
     },[])
     const EditTicket=(ticket)=>{
       console.log(ticket._id);
-      history(`/create/${ticket._id}`,{state:ticket})
+      const updatedTicket = {
+        e_issueId: ticket.issueId,
+        e_openBy: ticket.openBy,
+        e_openOn: ticket.openOn,
+        e_priority: ticket.priority,
+        e_status: ticket.status,
+        e_description:ticket.description
+      };
+      history(`/create/${ticket._id}`,{state:updatedTicket})
     }
   return (
     <div className='main-container'>
@@ -58,7 +66,6 @@ function Home() {
                         </TableRow>
                     ))}
                 </TableBody>
-               
               </Table>
             </TableContainer>
         </div>

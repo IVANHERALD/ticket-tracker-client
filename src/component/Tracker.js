@@ -4,6 +4,8 @@ import { useLocation, useParams,useNavigate } from 'react-router-dom';
 import './styles/Tracker.css'
 import Navbar from './Navbar';
 function Tracker() {
+  const history=useNavigate();
+  const {id} = useParams();
   const [currentDateTime, setCurrentDateTime] = useState('');
   const [issueId,setIssueId] = useState(1)
   const [openBy,setOpenBy] = useState('')
@@ -48,7 +50,33 @@ function Tracker() {
         console.error('Error fetching last Ticket number:', error);
       }
     };
-   fetchLastTicketNumber();
+    const fetchTicketById =async()=>{
+      console.log('inside fetch ticket by id')
+      try {
+           const response = await fetch(`http://localhost:5000/ticket/getTicketbyId?_id=${id}`)
+          const data = await response.json();
+          setIssueId(data.Ticket.issueId)
+          setOpenBy(data.Ticket.openBy)
+          setCurrentDateTime(data.Ticket.openOn)
+          setdescription(data.Ticket.description)
+          setPriority(data.Ticket.priority)
+          setStatus(data.Ticket.status)
+          setrequestedFor(data.Ticket.requestedFor)
+          console.log(data);
+        } catch (error) {
+          console.error('Error fetching Ticket:', error);
+        }
+      };
+      if(!id)
+      {
+        fetchLastTicketNumber();
+      }
+      else
+      {
+        fetchTicketById();
+      }
+
+  
 },[]);
 
 if (!ticket) {
@@ -58,6 +86,7 @@ if (!ticket) {
     </div>
   );
 }
+
 
 
   const handleSubmit=async()=>{
@@ -79,6 +108,7 @@ if (!ticket) {
     console.log(lastTicketData)
 
     try{
+      if (!id) {
       const response = await fetch(`http://localhost:5000/ticket/createTicket`, {
         method: 'POST',
         headers: {
@@ -92,10 +122,29 @@ if (!ticket) {
       if (response.status === 201) {
         showSnackbar('Ticket saved Successfully');
         setTimeout(() => {
-          //history('/home',{ replace: true }); 
+          history('/',{ replace: true }); 
         },3000)
       }
     }
+    else{
+      const response = await fetch(`http://localhost:5000/ticket/update?_id=${id}`, {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(lastTicketData),
+      });
+
+      const data = await response.json();
+      console.log('Response from server:', data);
+      if (response.status === 200) {
+        showSnackbar('Ticket saved Successfully');
+        setTimeout(() => {
+          history('/',{ replace: true }); 
+        },3000)
+      }
+    }
+  }
     catch(error)
     {
       console.log('error',error);
