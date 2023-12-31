@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
         <Route path="/" element={<Home/>} />
-          <Route path="/create" element={<Tracker/>} />
+          <Route path="/add" element={<Tracker/>} />
           <Route path="/create/:id" element={<Tracker/>} />
         </Routes>
       </Router>
