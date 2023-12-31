@@ -41,7 +41,7 @@ function Tracker() {
     const fetchLastTicketNumber = async () => {
       console.log("inside")
       try {
-        const lastTicketResponse = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/getTicketNum`);
+        const lastTicketResponse = await fetch(`http://localhost:5000/ticket/getTicketNum`);
         const lastTicketData = await lastTicketResponse.json();
         const lastTicketNumber = lastTicketData.lastTicketNumber || 0;
         const newTicketNumber = parseInt(lastTicketNumber)+1;
@@ -53,7 +53,7 @@ function Tracker() {
     const fetchTicketById =async()=>{
       console.log('inside fetch ticket by id')
       try {
-           const response = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/getTicketbyId?_id=${id}`)
+           const response = await fetch(`http://localhost:5000/ticket/getTicketbyId?_id=${id}`)
           const data = await response.json();
           setIssueId(data.Ticket.issueId)
           setOpenBy(data.Ticket.openBy)
@@ -109,7 +109,7 @@ if (!ticket) {
 
     try{
       if (!id) {
-      const response = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/createTicket`, {
+      const response = await fetch(`http://localhost:5000/ticket/createTicket`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ if (!ticket) {
       }
     }
     else{
-      const response = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/update?_id=${id}`, {
+      const response = await fetch(`http://localhost:5000/ticket/update?_id=${id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
