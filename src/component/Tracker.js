@@ -77,7 +77,7 @@ function Tracker() {
       }
 
   
-},[]);
+},[id]);
 
 if (!ticket) {
   return (
