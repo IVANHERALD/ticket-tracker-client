@@ -56,6 +56,7 @@ function Home() {
         if (response.status === 200) {
           console.log(data.message);
           showSnackbar("Ticket Deleted SuccessFully");
+          history('/');
           
         } else {
           console.error(data.message);
