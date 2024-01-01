@@ -138,7 +138,7 @@ if (!ticket) {
       const data = await response.json();
       console.log('Response from server:', data);
       if (response.status === 200) {
-        showSnackbar('Ticket saved Successfully');
+        showSnackbar('Ticket Updated Successfully');
         setTimeout(() => {
           history('/',{ replace: true }); 
         },3000)

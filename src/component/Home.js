@@ -2,13 +2,23 @@ import React,{useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Navbar from './Navbar'
-import { TableContainer,Table,TableBody,TableCell,TableRow,Paper,TableHead, Button } from '@mui/material'
+import { TableContainer,Table,TableBody,TableCell,TableRow,Paper,TableHead, Button,Snackbar } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function Home() {
     const [TicketArray,setTicketArray]=useState([]);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
     const history=useNavigate();
+    const showSnackbar = (message) => {
+      setSnackbarMessage(message);
+      setSnackbarOpen(true);
+    };
+  
+    const handleSnackbarClose = () => {
+      setSnackbarOpen(false);
+    };
     useEffect(()=>
     {
         const fetchAllTicket = async () => {
@@ -45,6 +55,7 @@ function Home() {
     
         if (response.status === 200) {
           console.log(data.message);
+          showSnackbar("Ticket Deleted SuccessFully");
           
         } else {
           console.error(data.message);
@@ -87,7 +98,15 @@ function Home() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+          message={snackbarMessage}
+          anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+        />
         </div>
+
     </div>
   )
 }
