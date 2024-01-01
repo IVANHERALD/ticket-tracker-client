@@ -13,7 +13,7 @@ function Home() {
     {
         const fetchAllTicket = async () => {
             try {
-              const response = await fetch(`http://localhost:5000/ticket/getAllTickets`);
+              const response = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/getAllTickets`);
               const data = await response.json();
               console.log(data.tickets);
               setTicketArray(data.tickets);
@@ -35,6 +35,25 @@ function Home() {
       };
       history(`/create/${ticket._id}`,{state:updatedTicket})
     }
+    const deleteTicket = async (ticketId) => {
+      try {
+        const response = await fetch(`https://crud-mern-backend.azurewebsites.net/ticket/deleteTicket?_id=${ticketId}`, {
+          method: 'DELETE',
+        });
+    
+        const data = await response.json();
+    
+        if (response.status === 200) {
+          console.log(data.message);
+          
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error('Error deleting ticket:', error);
+      }
+    };
+    
   return (
     <div className='main-container'>
         <Navbar/>
@@ -62,7 +81,7 @@ function Home() {
                             <TableCell>{ticket.status}</TableCell>
                             <TableCell >
                                 <Button onClick={()=>EditTicket(ticket)}startIcon={<EditIcon sx={{color:"black"}}/>}/>
-                                <Button startIcon={<DeleteIcon sx={{color:"black"}} />}/></TableCell>
+                                <Button onClick={()=>deleteTicket(ticket._id)} startIcon={<DeleteIcon sx={{color:"black"}} />}/></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
